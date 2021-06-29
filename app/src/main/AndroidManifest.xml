@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pruebaversant">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PruebaVersant">
+        <activity android:name=".Settings"></activity>
+        <activity android:name=".achievements" />
+        <activity android:name=".Dashboard" />
+        <activity android:name=".Dictation" />
+        <activity android:name=".Sentence_completion" />
+        <activity android:name=".Sentence_builds" />
+        <activity android:name=".Practice" />
+        <activity android:name=".Home" />
+        <activity android:name=".Registro" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".achievements">
+    <TextView
+        android:id="@+id/AchievementView"
+        android:layout_width="274dp"
+        android:layout_height="42dp"
+        android:background="#0D47A1"
+        android:scrollHorizontally="false"
+        android:text="achievements"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="30sp"
+        android:verticalScrollbarPosition="defaultPosition"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.073" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="45dp"
+        android:layout_height="46dp"
+        android:background="#B71C1C"
+        android:onClick="Dashboard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.043"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
+        app:srcCompat="@android:drawable/ic_menu_revert" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

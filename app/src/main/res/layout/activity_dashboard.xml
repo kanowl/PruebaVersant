@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Dashboard">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/DashboardView"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:paddingLeft="10dp"
+        android:layout_gravity="center"
+        android:text="DASHBOARD"
+       />
+        <TableLayout
+            android:id="@+id/REport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <TableRow
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="49dp">
+
+                <TextView
+                    android:id="@+id/Score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pos: "
+                    />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="User"/>
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Score"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <TextView
+                    android:id="@+id/CurrentGSE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="currentgse:   "
+                    />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                >
+
+                <TextView
+                    android:id="@+id/CurrentMCER"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="currentmcef:   "
+                    />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0" />
+
+            </TableRow>
+
+        </TableLayout>
+
+
+        <Button
+            android:id="@+id/AchievementButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="#1976D2"
+            android:onClick="Achievements"
+            android:text="achievements"
+            app:backgroundTint="#1976D2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.775" />
+        </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/imageButton10"
+        android:layout_width="45dp"
+        android:layout_height="46dp"
+        android:background="#B71C1C"
+
+        android:onClick="Home"
+        android:tint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.073"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
+        app:srcCompat="@android:drawable/ic_menu_revert" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

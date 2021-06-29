@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Dictation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/Dictation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dictation"
+            android:textSize="30sp"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"/> />
+
+
+
+
+        <EditText
+            android:id="@+id/AnswerDictation"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_marginTop="30dp"
+            android:background="#E3E0E0"
+            android:ems="10"
+            android:hint="        Answer"
+            android:inputType="textPersonName"/>
+
+        <ImageButton
+            android:id="@+id/Play"
+            android:layout_width="65dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:background="#1E88E5"
+            android:onClick="Play"
+            app:srcCompat="@android:drawable/ic_media_play" />
+
+        <LinearLayout
+            android:id="@+id/menuLinearLayout"
+            android:layout_width="203dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/midTableLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <ImageButton
+                android:id="@+id/ChangeQuestion"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+
+                android:onClick="ChangeQuestion"
+                app:srcCompat="@android:drawable/ic_delete" />
+
+            <ImageButton
+                android:id="@+id/Replay"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+
+                android:onClick="Replay"
+                app:srcCompat="@android:drawable/ic_menu_rotate" />
+
+            <ImageButton
+                android:id="@+id/Send2"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+
+                android:onClick="Answer"
+                app:srcCompat="@android:drawable/ic_menu_send" />
+
+
+        </LinearLayout>
+        <TableLayout
+            android:id="@+id/REport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <TableRow
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="49dp">
+
+                <TextView
+                    android:id="@+id/Score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="score: "
+                    />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <TextView
+                    android:id="@+id/CurrentGSE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="currentgse:   "
+                    />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                >
+
+                <TextView
+                    android:id="@+id/CurrentMCER"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="currentmcef:   "
+                    />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0" />
+
+            </TableRow>
+
+        </TableLayout>
+
+        <ImageButton
+            android:id="@+id/Return"
+            android:layout_width="45dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="45dp"
+            android:background="#B71C1C"
+            android:onClick="Practice"
+            app:srcCompat="@android:drawable/ic_menu_revert" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "726104171405",
+    "project_id": "pruebaversantandroid",
+    "storage_bucket": "pruebaversantandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726104171405:android:c7a1777d1317c19424d3c4",
+        "android_client_info": {
+          "package_name": "com.pruebaversant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726104171405-g8huh7l5lcj10scm0opcvt47433d1a79.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIxPV1LJYzfSP93H-tVG9BqLSmHS1tIx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726104171405-g8huh7l5lcj10scm0opcvt47433d1a79.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
