@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.pruebaversant.Practice;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -101,6 +102,8 @@ public class Sentence_completion extends AppCompatActivity {
 
 public void GetAnswer (){
 
+
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Log.d("Documento", String.valueOf(document));
     DocumentReference docRef = db.collection("SentenceCompletition").document(String.valueOf(document));
@@ -124,6 +127,17 @@ public void GetAnswer (){
                     }
                 }
             });
+    int auxgse = Integer.parseInt(gse1);
+
+    gse1= String.valueOf(auxgse);
+
+    if (auxgse>42)
+        cefr="b1";
+    if (auxgse>57)
+        cefr="b2";
+    if (auxgse>75)
+        cefr="c1";
+    textView11.setText(cefr);
 
 }
 
@@ -183,6 +197,33 @@ public void GetAnswer (){
             public void onClick(DialogInterface dialog, int which) {
                 auxnum = numero;
                 numero=0;
+
+                int auxgse = Integer.parseInt(gse1);
+                if (auxgse==31)
+                    auxgse=auxgse-1;
+                if (auxgse>=32)
+                    auxgse=auxgse-2;
+
+
+                gse1= String.valueOf(auxgse);
+
+                if (auxgse>42)
+                    cefr="b1";
+                if (auxgse>57)
+                    cefr="b2";
+                if (auxgse>75)
+                    cefr="c1";
+
+
+                int auxdoc= Integer.parseInt(doc);
+                if (auxdoc==5)
+                    auxdoc=0;
+                if (auxdoc==10)
+                    auxdoc=0;
+                if (auxdoc>10)
+                    auxdoc=auxdoc-10;
+
+                doc = String.valueOf(auxdoc);
 
                 int auxscore = Integer.parseInt(score);
                 auxscore = auxscore-10;
