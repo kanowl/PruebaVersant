@@ -56,8 +56,8 @@
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="sentence_builds"
-            android:text="Sentence builds"
+            android:onClick="sentence_builds_instruction"
+            android:text="Arrange the Sentences"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textSize="18sp"
             app:backgroundTint="#1976D2" />
@@ -67,8 +67,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:onClick="sentence_completion"
-            android:text="Sentence Completion"
+            android:onClick="sentence_completion_instruction"
+            android:text="Complete the Sentences"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textIsSelectable="false"
             app:backgroundTint="#1976D2" />
@@ -79,8 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:onClick="dictation"
-            android:text="Dictation"
+            android:onClick="dictation_instruction"
+            android:text="Transcription"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:backgroundTint="#1976D2" />
     </LinearLayout>

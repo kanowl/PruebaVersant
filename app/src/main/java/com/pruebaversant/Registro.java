@@ -11,10 +11,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.pruebaversant.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.pruebaversant.MainActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,7 +67,7 @@ public class Registro extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w("error ", "Error writing document", e);
+                                Log.w("error", "Error writing document", e);
                             }
                         });
 
@@ -80,7 +82,7 @@ public class Registro extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w("error ", "Error writing document", e);
+                                Log.w("error", "Error writing document", e);
                             }
                         });
 
@@ -95,7 +97,7 @@ public class Registro extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w("error ", "Error writing document", e);
+                                Log.w("error", "Error writing document", e);
                             }
                         });
 

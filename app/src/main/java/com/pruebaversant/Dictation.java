@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pruebaversant.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -55,15 +56,7 @@ public class Dictation extends AppCompatActivity {
         email = getIntent().getStringExtra("email");
 
 
-      /*  if (flag==0){
-            cefr = "A2";
-            gse1= "30";
-            score= "100";
-            doc="0";
-            textView13.setText(score);
-            textView10.setText(gse1);
-            textView11.setText(cefr);
-        }else{*/
+
             DocumentReference docRef1 = db1.collection("ScoreDictation").document(String.valueOf(email));
             docRef1.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -275,6 +268,33 @@ public class Dictation extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 auxnum = numero;
                 numero=0;
+
+                int auxgse = Integer.parseInt(gse1);
+                if (auxgse==31)
+                    auxgse=auxgse-1;
+                if (auxgse>=32)
+                    auxgse=auxgse-2;
+
+
+                gse1= String.valueOf(auxgse);
+
+                if (auxgse>42)
+                    cefr="b1";
+                if (auxgse>57)
+                    cefr="b2";
+                if (auxgse>75)
+                    cefr="c1";
+
+
+                int auxdoc= Integer.parseInt(doc);
+                if (auxdoc==5)
+                    auxdoc=0;
+                if (auxdoc==10)
+                    auxdoc=0;
+                if (auxdoc>10)
+                    auxdoc=auxdoc-10;
+
+                doc = String.valueOf(auxdoc);
 
                 int auxscore = Integer.parseInt(score);
                 auxscore = auxscore-10;

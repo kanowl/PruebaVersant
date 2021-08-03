@@ -6,4 +6,64 @@
     android:layout_height="match_parent"
     tools:context=".Sentence_builds_instruction">
 
+
+    <TextView
+        android:id="@+id/DictationInstruction"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:gravity="center_horizontal"
+        android:scrollHorizontally="false"
+        android:text="Instructions"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.043"
+        app:textLocale="practice" />
+
+
+    <TextView
+        android:id="@+id/ContentSentenceCompletion"
+        android:layout_width="280dp"
+        android:layout_height="200dp"
+        android:scrollbars="vertical"
+        android:text="In this section of the test, you will listen to short simple phrases, then you will recosntruct the paragraph aloud by using your own words. \n
+\n To practice, you will have the possibility to listen the phrases as many times as you want, but, every time you play the track, one point will be reduced from the total. \n \n You will get the rest of the points as soon as you send the correct answer that you have to write in the box. \n \n You have 100 points to start with, remember, you have to use the exact words with the correct punctuation and capitalization. If you do not follow this instructions, you won't get the score until you correct your mistakes and send the answer again."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DictationInstruction"
+        app:layout_constraintVertical_bias="0.136" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Click on Start to begin the exercise"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/ContentSentenceCompletion" />
+
+    <Button
+
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:onClick="sentence_builds"
+        android:text="START"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+         />
+    />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

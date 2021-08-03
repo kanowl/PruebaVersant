@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import com.pruebaversant.R;
+import com.pruebaversant.MainActivity;
+
+import com.pruebaversant.Settings;
 import com.google.firebase.auth.FirebaseAuth;
 
 

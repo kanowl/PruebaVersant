@@ -8,8 +8,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PruebaVersant">
-        <activity android:name=".Settings"></activity>
+        android:theme="@style/Theme.pruebaversant">
+        <activity android:name=".Dictation_instruction"></activity>
+        <activity android:name=".Sentence_builds_instruction" />
+        <activity android:name=".Sentence_completition_instruction" />
+        <activity android:name=".Settings" />
         <activity android:name=".achievements" />
         <activity android:name=".Dashboard" />
         <activity android:name=".Dictation" />

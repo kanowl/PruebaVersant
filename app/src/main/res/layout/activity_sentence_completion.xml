@@ -15,7 +15,7 @@
             android:id="@+id/SentenceCompletion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sentence Completion"
+            android:text="Complete the Sentences"
             android:textSize="25dp"
             android:paddingLeft="10dp"
             android:layout_marginTop="30dp"
@@ -24,12 +24,12 @@
 
         <TextView
             android:id="@+id/question"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-
             android:text="Question"
             android:layout_marginTop="30dp"
-            android:layout_gravity="center"/>
+            />
 
         <EditText
             android:id="@+id/AnswerSentenceCompletion"
@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:background="#E3E0E0"
             android:ems="10"
+
             android:hint="Answer"
             android:inputType="text"
             android:layout_marginTop="30dp"
@@ -110,7 +111,7 @@
                     android:id="@+id/CurrentGSE"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="currentgse:   "
+                    android:text="GSE:   "
                     />
 
                 <TextView
@@ -131,7 +132,7 @@
                     android:id="@+id/CurrentMCER"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="currentmcef:   "
+                    android:text="CEFR:   "
                     />
 
                 <TextView
