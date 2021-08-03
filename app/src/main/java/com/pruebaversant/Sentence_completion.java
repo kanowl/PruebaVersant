@@ -116,6 +116,10 @@ public void GetAnswer (){
                         if (document.exists()) {
                             que = (String) document.get("question");
                             respuesta = (String) document.get("answer");
+                            cefr = (String) document.get("CEFR");
+                            gse1= (String) document.get("gse");
+                            textView10.setText(gse1);
+                            textView11.setText(cefr);
                              Log.d("respuesta", respuesta);
                             question.setText(que);
                         }
@@ -127,6 +131,11 @@ public void GetAnswer (){
                     }
                 }
             });
+
+
+    UpdateItems up =  new UpdateItems();
+    cefr =up.Cefr(gse1);
+    /*
     int auxgse = Integer.parseInt(gse1);
 
     gse1= String.valueOf(auxgse);
@@ -136,7 +145,7 @@ public void GetAnswer (){
     if (auxgse>57)
         cefr="B2";
     if (auxgse>75)
-        cefr="C1";
+        cefr="C1";*/
     textView11.setText(cefr);
 
 }
@@ -205,6 +214,10 @@ public void GetAnswer (){
                     auxgse=auxgse-2;
 
 
+                UpdateItems up =  new UpdateItems();
+                cefr =up.Cefr(gse1);
+
+                /*
                 gse1= String.valueOf(auxgse);
 
                 if (auxgse>42)
@@ -212,7 +225,7 @@ public void GetAnswer (){
                 if (auxgse>57)
                     cefr="B2";
                 if (auxgse>75)
-                    cefr="C1";
+                    cefr="C1";*/
 
 
                 int auxdoc= Integer.parseInt(doc);

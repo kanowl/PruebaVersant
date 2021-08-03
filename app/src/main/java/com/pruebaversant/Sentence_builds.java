@@ -129,13 +129,18 @@ public class Sentence_builds extends AppCompatActivity {
                         Log.w("SentenceBuilds", "Error getting documents.", task.getException());
                     }
                 });
+
+        UpdateItems up =  new UpdateItems();
+        cefr =up.Cefr(gse1);
+
+        /*
         int auxgse = Integer.parseInt(gse1);
         if (auxgse>42)
             cefr="B1";
         if (auxgse>57)
             cefr="B2";
         if (auxgse>75)
-            cefr="C1";
+            cefr="C1";*/
 
 
 
@@ -282,7 +287,11 @@ public class Sentence_builds extends AppCompatActivity {
                 if (auxgse>=32)
                     auxgse=auxgse-2;
 
+                UpdateItems up =  new UpdateItems();
+                cefr =up.Cefr(gse1);
 
+
+                /*
                 gse1= String.valueOf(auxgse);
 
                 if (auxgse>42)
@@ -290,7 +299,7 @@ public class Sentence_builds extends AppCompatActivity {
                 if (auxgse>57)
                     cefr="B2";
                 if (auxgse>75)
-                    cefr="C1";
+                    cefr="C1";*/
 
 
                 int auxdoc= Integer.parseInt(doc);

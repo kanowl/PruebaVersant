@@ -112,6 +112,10 @@ public class Dictation extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 respuesta = (String) document.get("answer");
+                                cefr = (String) document.get("CEFR");
+                                gse1= (String) document.get("gse");
+                                textView10.setText(gse1);
+                                textView11.setText(cefr);
                                 Log.d("Dictation", respuesta);
                             }
                             else {
@@ -123,13 +127,19 @@ public class Dictation extends AppCompatActivity {
                     }
                 });
 
-        int auxgse = Integer.parseInt(gse1);
+
+        UpdateItems up =  new UpdateItems();
+        cefr =up.Cefr(gse1);
+
+
+
+        /*int auxgse = Integer.parseInt(gse1);
         if (auxgse>42)
             cefr="B1";
         if (auxgse>57)
             cefr="B2";
         if (auxgse>75)
-            cefr="C1";
+            cefr="C1";*/
 
         String pista;
         cefr= cefr.toLowerCase();
@@ -276,14 +286,16 @@ public class Dictation extends AppCompatActivity {
                     auxgse=auxgse-2;
 
 
-                gse1= String.valueOf(auxgse);
+                UpdateItems up =  new UpdateItems();
+                cefr =up.Cefr(gse1);
+                /*gse1= String.valueOf(auxgse);
 
                 if (auxgse>42)
                     cefr="B1";
                 if (auxgse>57)
                     cefr="B2";
                 if (auxgse>75)
-                    cefr="C1";
+                    cefr="C1";*/
 
 
                 int auxdoc= Integer.parseInt(doc);
