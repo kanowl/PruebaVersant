@@ -132,11 +132,11 @@ public void GetAnswer (){
     gse1= String.valueOf(auxgse);
 
     if (auxgse>42)
-        cefr="b1";
+        cefr="B1";
     if (auxgse>57)
-        cefr="b2";
+        cefr="B2";
     if (auxgse>75)
-        cefr="c1";
+        cefr="C1";
     textView11.setText(cefr);
 
 }
@@ -208,11 +208,11 @@ public void GetAnswer (){
                 gse1= String.valueOf(auxgse);
 
                 if (auxgse>42)
-                    cefr="b1";
+                    cefr="B1";
                 if (auxgse>57)
-                    cefr="b2";
+                    cefr="B2";
                 if (auxgse>75)
-                    cefr="c1";
+                    cefr="C1";
 
 
                 int auxdoc= Integer.parseInt(doc);
