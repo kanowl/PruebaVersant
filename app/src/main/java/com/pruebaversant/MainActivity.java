@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,12 +15,20 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -50,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void login (View view) throws IOException {
 
-
 /*
+
         //-----------------------inserta datos en la base de datos de sentencebuild a partir del sentencebuild.csv no hace parte del programa  -------------------------
 
 
@@ -187,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(MainActivity.this, "Login exitoso", Toast.LENGTH_SHORT).show();
 
-                           Intent in = new Intent(MainActivity.this, Home.class);
+                            Intent in = new Intent(MainActivity.this, Home.class);
                             in.putExtra("email", e);
                             startActivity(in);
 

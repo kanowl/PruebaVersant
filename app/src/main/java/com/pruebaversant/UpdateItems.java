@@ -1,5 +1,9 @@
 package com.pruebaversant;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class UpdateItems {
 
     public String Cefr ( String gse1) {
@@ -13,6 +17,21 @@ public class UpdateItems {
             cefr="C1";
 
         return cefr;
+
+    }
+    String starttime,finaltime;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    Date st;
+    public void HoraInicio () throws ParseException {
+       st = simpleDateFormat.parse("04/22/2020");
+        starttime = simpleDateFormat.format(new Date());
+    }
+
+
+    public void Horafinal () throws ParseException {
+        Date ft = simpleDateFormat.parse("04/22/2020");
+        long tt = st.getTime()- ft.getTime();
+         finaltime = simpleDateFormat.format(new Date());
 
     }
 

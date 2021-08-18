@@ -13,20 +13,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.pruebaversant.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.pruebaversant.Practice;
 
-
-import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,18 +32,26 @@ public class Sentence_builds extends AppCompatActivity {
     String text, respuesta, cefr, gse1, score,doc, email;
     private EditText resp;
     MediaPlayer  mp;
+    long tiempoInicial,tiempo;
+
+    DTO dto =  new DTO();
+    UpdateItems up =  new UpdateItems();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sentence_builds);
-        ImageButton boton = (ImageButton) findViewById(R.id.Play);
+        ImageButton boton =  findViewById(R.id.Play);
+
+        Date fechaInicio=new Date();
+        tiempoInicial =fechaInicio.getTime();
+
 
         boton.setEnabled(true);  //Asigna valor true.
         resp=findViewById(R.id.answer);
-        textView13 = (TextView)findViewById(R.id.textView13);
-        textView10 = (TextView)findViewById(R.id.textView10);
-        textView11 = (TextView)findViewById(R.id.textView11);
+        textView13 = findViewById(R.id.textView13);
+        textView10 = findViewById(R.id.textView10);
+        textView11 = findViewById(R.id.textView11);
         email = getIntent().getStringExtra("email");
         Log.d("correo", email);
 
@@ -65,6 +68,7 @@ public class Sentence_builds extends AppCompatActivity {
                             gse1= (String) document1.get("gse");
                             score= (String) document1.get("score");
                             doc=(String) document1.get("doc");
+                            tiempo= (long) document1.get("time");
                             textView13.setText(score);
                             textView10.setText(gse1);
                             textView11.setText(cefr);
@@ -77,21 +81,12 @@ public class Sentence_builds extends AppCompatActivity {
                     }
                 });
 
-
-
     }
 
-    public void Practice (View view){
-
-        Intent i = new Intent(this, Practice.class);
-        i.putExtra("email", email);
-        startActivity(i);
-
-    }
 
 
     public void Play (View view)  {
-        ImageButton boton = (ImageButton) findViewById(R.id.Play);
+        ImageButton boton =  findViewById(R.id.Play);
 
         boton.setEnabled(false);
 
@@ -130,17 +125,9 @@ public class Sentence_builds extends AppCompatActivity {
                     }
                 });
 
-        UpdateItems up =  new UpdateItems();
         cefr =up.Cefr(gse1);
 
-        /*
-        int auxgse = Integer.parseInt(gse1);
-        if (auxgse>42)
-            cefr="B1";
-        if (auxgse>57)
-            cefr="B2";
-        if (auxgse>75)
-            cefr="C1";*/
+
 
 
 
@@ -153,39 +140,33 @@ public class Sentence_builds extends AppCompatActivity {
             case 1:
                 pista="1";
                 mp=MediaPlayer.create(getApplicationContext(), getResources().getIdentifier('s'+cefr+gse1+pista,"raw",getPackageName()));
-
-
                 break;
 
             case 2:
                 pista="2";
                 mp=MediaPlayer.create(getApplicationContext(), getResources().getIdentifier('s'+cefr+gse1+pista,"raw",getPackageName()));
-
                 break;
+
             case 3:
                 pista="3";
                 mp=MediaPlayer.create(getApplicationContext(), getResources().getIdentifier('s'+cefr+gse1+pista,"raw",getPackageName()));
-
                 break;
+
             case 4:
                 pista="4";
                 mp=MediaPlayer.create(getApplicationContext(), getResources().getIdentifier('s'+cefr+gse1+pista,"raw",getPackageName()));
-
                 break;
+
             case 5:
                 pista="5";
                 mp=MediaPlayer.create(getApplicationContext(), getResources().getIdentifier('s'+cefr+gse1+pista,"raw",getPackageName()));
-
-
                 break;
 
         }
 
-
         AudioManager audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
         audioManager.setStreamVolume (AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0);
         mp.start();
-
 
     }
 
@@ -203,28 +184,16 @@ public class Sentence_builds extends AppCompatActivity {
             auxdoc=auxdoc+5;
             doc = String.valueOf(auxdoc);
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
             Map<String, Object> a = new HashMap<>();
             a.put("CEFR", cefr);
             a.put("gse", gse1);
             a.put("score", score);
             a.put("doc", doc);
+            a.put("time", tiempo);
 
-            db.collection("ScoreSentenceBuild").document(email)
-                    .set(a)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d("actualiza", "actualizado!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w("error actrualizando", "Error writing document", e);
-                        }
-                    });
+
+            dto.InsertScore(email,a, "ScoreSentenceBuild");
+
             Toast.makeText(Sentence_builds.this, "Right Answer", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, Sentence_builds.class);
             i.putExtra("email", email);
@@ -236,33 +205,20 @@ public class Sentence_builds extends AppCompatActivity {
 
     }
 
-    public void Replay (View view) throws IOException {
+    public void Replay (View view)  {
         int auxscore = Integer.parseInt(score);
         auxscore = auxscore-1;
         score = String.valueOf(auxscore);
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Map<String, Object> a = new HashMap<>();
         a.put("CEFR", cefr);
         a.put("gse", gse1);
         a.put("score", score);
         a.put("doc", doc);
+        a.put("time", tiempo);
 
-        db.collection("ScoreSentenceBuild").document(email)
-                .set(a)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("actualiza", "actualizado!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("error actrualizando", "Error writing document", e);
-                    }
-                });
+
+        dto.InsertScore(email,a,"ScoreSentenceBuild");
 
         textView13.setText(score);
         textView10.setText(gse1);
@@ -271,7 +227,7 @@ public class Sentence_builds extends AppCompatActivity {
 
     }
 
-    public void ChangeQuestion (View view) throws IOException {
+    public void ChangeQuestion (View view)  {
         AlertDialog.Builder alerta = new AlertDialog.Builder(Sentence_builds.this);
         alerta.setMessage("If you change the question, you are going to lose 10 points and two levels. Are you sure you want to change the question?")
                 .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -280,27 +236,15 @@ public class Sentence_builds extends AppCompatActivity {
                 auxnum = numero;
                 numero=0;
 
-
                 int auxgse = Integer.parseInt(gse1);
                 if (auxgse==31)
                     auxgse=auxgse-1;
                 if (auxgse>=32)
                     auxgse=auxgse-2;
 
+                gse1= String.valueOf(auxgse);
                 UpdateItems up =  new UpdateItems();
                 cefr =up.Cefr(gse1);
-
-
-                /*
-                gse1= String.valueOf(auxgse);
-
-                if (auxgse>42)
-                    cefr="B1";
-                if (auxgse>57)
-                    cefr="B2";
-                if (auxgse>75)
-                    cefr="C1";*/
-
 
                 int auxdoc= Integer.parseInt(doc);
                 if (auxdoc==5)
@@ -312,33 +256,18 @@ public class Sentence_builds extends AppCompatActivity {
 
                 doc = String.valueOf(auxdoc);
 
-
                 int auxscore = Integer.parseInt(score);
                 auxscore = auxscore-10;
                 score = String.valueOf(auxscore);
-
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 Map<String, Object> a = new HashMap<>();
                 a.put("CEFR", cefr);
                 a.put("gse", gse1);
                 a.put("score", score);
                 a.put("doc", doc);
+                a.put("time", tiempo);
 
-                db.collection("ScoreSentenceBuild").document(email)
-                        .set(a)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("actualiza", "actualizado!");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("error actrualizando", "Error writing document", e);
-                            }
-                        });
+                dto.InsertScore(email,a, "ScoreSentenceBuild");
 
                 textView13.setText(score);
                 textView10.setText(gse1);
@@ -349,7 +278,7 @@ public class Sentence_builds extends AppCompatActivity {
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();;
+                dialog.cancel();
             }
         });
         AlertDialog titulo = alerta.create();
@@ -359,6 +288,28 @@ public class Sentence_builds extends AppCompatActivity {
 
 
 
+    public void Practice (View view)  {
+        Date fechaFin=new Date();
+        long tiempoFinal=fechaFin.getTime();
+        long resta=(tiempoFinal/1000) - (tiempoInicial/1000);
+
+        resta= resta+tiempo;
+
+
+        Map<String, Object> a = new HashMap<>();
+        a.put("CEFR", cefr);
+        a.put("gse", gse1);
+        a.put("score", score);
+        a.put("doc", doc);
+        a.put("time", resta);
+
+        dto.InsertScore(email,a, "ScoreSentenceBuild");
+        Log.d("TiempodeSentenceBuilds", String.valueOf(resta));
+        Intent i = new Intent(this, Practice.class);
+        i.putExtra("email", email);
+        startActivity(i);
+
+    }
 
 
 

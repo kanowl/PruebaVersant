@@ -17,40 +17,46 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pruebaversant.R;
+
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.IOException;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class Dictation extends AppCompatActivity {
 
-    int numero, auxnum, flag=0;
-    private TextView textView13,textView10,textView11;
+    int numero, auxnum;
     String text, respuesta, cefr, gse1, score,doc,email;
+
+    private TextView textView13,textView10,textView11;
     private EditText resp;
     MediaPlayer mp;
+    long tiempoInicial,tiempo;
+    DTO dto = new DTO();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dictation);
 
-        ImageButton boton = (ImageButton) findViewById(R.id.Play);
+        Date fechaInicio=new Date();
+        tiempoInicial =fechaInicio.getTime();
+
+
+        ImageButton boton =  findViewById(R.id.Play);
         boton.setEnabled(true);
 
         resp=findViewById(R.id.AnswerDictation);
-        textView13 = (TextView)findViewById(R.id.textView13);
-        textView10 = (TextView)findViewById(R.id.textView10);
-        textView11 = (TextView)findViewById(R.id.textView11);
+        textView13 = findViewById(R.id.textView13);
+        textView10 = findViewById(R.id.textView10);
+        textView11 = findViewById(R.id.textView11);
 
         FirebaseFirestore db1 = FirebaseFirestore.getInstance();
         email = getIntent().getStringExtra("email");
@@ -86,7 +92,7 @@ public class Dictation extends AppCompatActivity {
     //}
 
     public void Play (View view)  {
-        ImageButton boton = (ImageButton) findViewById(R.id.Play);
+        ImageButton boton = findViewById(R.id.Play);
 
         boton.setEnabled(false);
 
@@ -131,15 +137,6 @@ public class Dictation extends AppCompatActivity {
         UpdateItems up =  new UpdateItems();
         cefr =up.Cefr(gse1);
 
-
-
-        /*int auxgse = Integer.parseInt(gse1);
-        if (auxgse>42)
-            cefr="B1";
-        if (auxgse>57)
-            cefr="B2";
-        if (auxgse>75)
-            cefr="C1";*/
 
         String pista;
         cefr= cefr.toLowerCase();
@@ -202,28 +199,18 @@ public class Dictation extends AppCompatActivity {
             auxdoc=auxdoc+5;
             doc = String.valueOf(auxdoc);
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
             Map<String, Object> a = new HashMap<>();
             a.put("CEFR", cefr);
             a.put("gse", gse1);
             a.put("score", score);
             a.put("doc", doc);
+            a.put("time", tiempo);
 
-            db.collection("ScoreDictation").document(email)
-                    .set(a)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d("actualiza", "actualizado!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w("error actrualizando", "Error writing document", e);
-                        }
-                    });
+
+            dto.InsertScore(email,a, "ScoreDictation");
+
             Toast.makeText(Dictation.this, "Right Answer", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, Dictation.class);
             i.putExtra("email", email);
@@ -235,33 +222,23 @@ public class Dictation extends AppCompatActivity {
 
     }
 
-    public void Replay (View view) throws IOException {
+    public void Replay (View view)  {
         int auxscore = Integer.parseInt(score);
         auxscore = auxscore-1;
         score = String.valueOf(auxscore);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
         Map<String, Object> a = new HashMap<>();
         a.put("CEFR", cefr);
         a.put("gse", gse1);
         a.put("score", score);
         a.put("doc", doc);
+        a.put("time", tiempo);
 
-        db.collection("ScoreDictation").document(email)
-                .set(a)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("actualiza", "actualizado!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("error actrualizando", "Error writing document", e);
-                    }
-                });
+
+        dto.InsertScore(email,a, "ScoreDictation");
+
 
         textView13.setText(score);
         textView10.setText(gse1);
@@ -270,7 +247,7 @@ public class Dictation extends AppCompatActivity {
 
     }
 
-    public void ChangeQuestion (View view) throws IOException {
+    public void ChangeQuestion (View view)  {
         AlertDialog.Builder alerta = new AlertDialog.Builder(Dictation.this);
         alerta.setMessage("If you change the question, you are going to lose 10 points and two levels. Are you sure you want to change the question?")
                 .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -284,6 +261,7 @@ public class Dictation extends AppCompatActivity {
                     auxgse=auxgse-1;
                 if (auxgse>=32)
                     auxgse=auxgse-2;
+                gse1= String.valueOf(auxgse);
 
 
                 UpdateItems up =  new UpdateItems();
@@ -312,28 +290,17 @@ public class Dictation extends AppCompatActivity {
                 auxscore = auxscore-10;
                 score = String.valueOf(auxscore);
 
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 Map<String, Object> a = new HashMap<>();
                 a.put("CEFR", cefr);
                 a.put("gse", gse1);
                 a.put("score", score);
                 a.put("doc", doc);
+                a.put("time", tiempo);
 
-                db.collection("ScoreDictation").document(email)
-                        .set(a)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("actualiza", "actualizado!");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("error actrualizando", "Error writing document", e);
-                            }
-                        });
+
+                dto.InsertScore(email,a, "ScoreDictation");
+
 
                 textView13.setText(score);
                 textView10.setText(gse1);
@@ -344,7 +311,7 @@ public class Dictation extends AppCompatActivity {
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();;
+                dialog.cancel();
             }
         });
         AlertDialog titulo = alerta.create();
@@ -355,6 +322,23 @@ public class Dictation extends AppCompatActivity {
 
 
     public void Practice (View view){
+
+        Date fechaFin=new Date();
+        long tiempoFinal=fechaFin.getTime();
+        long resta=(tiempoFinal/1000) - (tiempoInicial/1000);
+
+        resta= resta+tiempo;
+
+        Map<String, Object> a = new HashMap<>();
+        a.put("CEFR", cefr);
+        a.put("gse", gse1);
+        a.put("score", score);
+        a.put("doc", doc);
+        a.put("time", resta);
+
+        dto.InsertScore(email,a, "ScoreDictation");
+
+
         Intent i = new Intent(this, Practice.class);
         i.putExtra("email", email);
         startActivity(i);
