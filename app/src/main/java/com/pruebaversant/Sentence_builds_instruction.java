@@ -22,13 +22,13 @@ public class Sentence_builds_instruction extends AppCompatActivity {
         setContentView(R.layout.activity_sentence_builds_instruction);
         email = getIntent().getStringExtra("email");
         tv1 = (TextView)findViewById(R.id.ContentSentenceCompletion);
-
         tv1.setMovementMethod(new ScrollingMovementMethod());
 
     }
 
     public void sentence_builds (View view){
         Intent i = new Intent(this, Sentence_builds.class);
+        i.putExtra("band", 0);
         i.putExtra("email", email);
 
         startActivity(i);

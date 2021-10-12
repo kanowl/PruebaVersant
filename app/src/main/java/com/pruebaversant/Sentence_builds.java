@@ -21,9 +21,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
+
 
 public class Sentence_builds extends AppCompatActivity {
 
@@ -32,7 +31,7 @@ public class Sentence_builds extends AppCompatActivity {
     String text, respuesta, cefr, gse1, score,doc, email;
     private EditText resp;
     MediaPlayer  mp;
-    long tiempoInicial,tiempo;
+    long tiempo;
 
     DTO dto =  new DTO();
     UpdateItems up =  new UpdateItems();
@@ -43,17 +42,16 @@ public class Sentence_builds extends AppCompatActivity {
         setContentView(R.layout.activity_sentence_builds);
         ImageButton boton =  findViewById(R.id.Play);
 
-        Date fechaInicio=new Date();
-        tiempoInicial =fechaInicio.getTime();
-
-
         boton.setEnabled(true);  //Asigna valor true.
         resp=findViewById(R.id.answer);
         textView13 = findViewById(R.id.textView13);
         textView10 = findViewById(R.id.textView10);
         textView11 = findViewById(R.id.textView11);
         email = getIntent().getStringExtra("email");
-        Log.d("correo", email);
+        int bandera = getIntent().getIntExtra("band", 1);
+
+        up.HoraInicio(bandera);
+
 
         FirebaseFirestore db1 = FirebaseFirestore.getInstance();
 
@@ -80,7 +78,6 @@ public class Sentence_builds extends AppCompatActivity {
                         Log.w("SentenceBuilds", "Error getting documents.", task.getException());
                     }
                 });
-
     }
 
 
@@ -90,14 +87,8 @@ public class Sentence_builds extends AppCompatActivity {
 
         boton.setEnabled(false);
 
-        if(numero == 0){
-            numero =(int) (Math.random() * 5) + 1;
-            if (auxnum !=0){
-                while (auxnum == numero){
-                    numero =(int) (Math.random() * 5) ;
-                }
-            }
-        }
+      // random num
+        numero = up.Randompista(numero,auxnum);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Log.d("SentenceBuilds", doc);
@@ -126,10 +117,6 @@ public class Sentence_builds extends AppCompatActivity {
                 });
 
         cefr =up.Cefr(gse1);
-
-
-
-
 
         String pista;
         cefr= cefr.toLowerCase();
@@ -184,19 +171,14 @@ public class Sentence_builds extends AppCompatActivity {
             auxdoc=auxdoc+5;
             doc = String.valueOf(auxdoc);
 
-            Map<String, Object> a = new HashMap<>();
-            a.put("CEFR", cefr);
-            a.put("gse", gse1);
-            a.put("score", score);
-            a.put("doc", doc);
-            a.put("time", tiempo);
 
 
-            dto.InsertScore(email,a, "ScoreSentenceBuild");
+            dto.InsertScore(email, "ScoreSentenceBuild", cefr, gse1,score, doc, tiempo);
 
             Toast.makeText(Sentence_builds.this, "Right Answer", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, Sentence_builds.class);
             i.putExtra("email", email);
+            i.putExtra("band", 1);
             startActivity(i);
         }else {
             Toast.makeText(Sentence_builds.this, "Wrong Answer... Try Again", Toast.LENGTH_SHORT).show();
@@ -210,15 +192,7 @@ public class Sentence_builds extends AppCompatActivity {
         auxscore = auxscore-1;
         score = String.valueOf(auxscore);
 
-        Map<String, Object> a = new HashMap<>();
-        a.put("CEFR", cefr);
-        a.put("gse", gse1);
-        a.put("score", score);
-        a.put("doc", doc);
-        a.put("time", tiempo);
-
-
-        dto.InsertScore(email,a,"ScoreSentenceBuild");
+        dto.InsertScore(email,"ScoreSentenceBuild", cefr, gse1,score, doc, tiempo);
 
         textView13.setText(score);
         textView10.setText(gse1);
@@ -260,14 +234,9 @@ public class Sentence_builds extends AppCompatActivity {
                 auxscore = auxscore-10;
                 score = String.valueOf(auxscore);
 
-                Map<String, Object> a = new HashMap<>();
-                a.put("CEFR", cefr);
-                a.put("gse", gse1);
-                a.put("score", score);
-                a.put("doc", doc);
-                a.put("time", tiempo);
 
-                dto.InsertScore(email,a, "ScoreSentenceBuild");
+
+                dto.InsertScore(email, "ScoreSentenceBuild", cefr, gse1,score, doc, tiempo);
 
                 textView13.setText(score);
                 textView10.setText(gse1);
@@ -289,22 +258,9 @@ public class Sentence_builds extends AppCompatActivity {
 
 
     public void Practice (View view)  {
-        Date fechaFin=new Date();
-        long tiempoFinal=fechaFin.getTime();
-        long resta=(tiempoFinal/1000) - (tiempoInicial/1000);
-
-        resta= resta+tiempo;
-
-
-        Map<String, Object> a = new HashMap<>();
-        a.put("CEFR", cefr);
-        a.put("gse", gse1);
-        a.put("score", score);
-        a.put("doc", doc);
-        a.put("time", resta);
-
-        dto.InsertScore(email,a, "ScoreSentenceBuild");
-        Log.d("TiempodeSentenceBuilds", String.valueOf(resta));
+        long ttotal = up.HoraFinal(tiempo);
+        dto.InsertScore(email, "ScoreSentenceBuild", cefr, gse1,score, doc, ttotal);
+        Log.d("TiempodeSentenceBuilds", String.valueOf(ttotal));
         Intent i = new Intent(this, Practice.class);
         i.putExtra("email", email);
         startActivity(i);

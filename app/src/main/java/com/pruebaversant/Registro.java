@@ -38,20 +38,12 @@ public class Registro extends AppCompatActivity {
                 startActivity(new Intent(Registro.this, MainActivity.class));
                 Toast.makeText(Registro.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
 
-                Map<String, Object> a = new HashMap<>();
-                a.put("CEFR", "A2");
-                a.put("gse", "30");
-                a.put("score", "100");
-                a.put("doc", "0");
-                a.put("time", 0);
-
-
 
                 // LLamar a clase DTO para insertar los datos en la DB
                 DTO dto =  new DTO();
-                dto.InsertScore(e, a,"ScoreDictation");
-                dto.InsertScore(e,a,"ScoreSentenceBuild");
-                dto.InsertScore(e,a,"ScoreSentenceCompletition");
+                dto.InsertScore(e,"ScoreDictation", "A2", "30","100", "0",0);
+                dto.InsertScore(e,"ScoreSentenceBuild","A2", "30","100", "0",0);
+                dto.InsertScore(e,"ScoreSentenceCompletition","A2", "30","100", "0",0);
 
                 finish();
 

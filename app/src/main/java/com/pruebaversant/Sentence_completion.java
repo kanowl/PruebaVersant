@@ -24,9 +24,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Sentence_completion extends AppCompatActivity {
 
@@ -35,8 +32,8 @@ public class Sentence_completion extends AppCompatActivity {
     String text, respuesta, cefr, gse1, score,que,email;
     private EditText resp;
     static String doc="0";
+    long tiempo;
     int doc1, document;
-    long tiempoInicial,tiempo;
 
     DTO dto =  new DTO();
 
@@ -44,6 +41,7 @@ public class Sentence_completion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UpdateItems up =  new UpdateItems();
 
         setContentView(R.layout.activity_sentence_completion);
         resp=findViewById(R.id.AnswerSentenceCompletion);
@@ -52,18 +50,11 @@ public class Sentence_completion extends AppCompatActivity {
         textView11 = findViewById(R.id.textView11);
         question = findViewById(R.id.question);
         email = getIntent().getStringExtra("email");
+        int bandera = getIntent().getIntExtra("band", 1);
 
-        Date fechaInicio=new Date();
-        tiempoInicial =fechaInicio.getTime();
+        up.HoraInicio(bandera);
 
-        if(numero == 0){
-            numero =(int) (Math.random() * 5) + 1;
-            if (auxnum !=0){
-                while (auxnum == numero){
-                    numero =(int) (Math.random() * 5) ;
-                }
-            }
-        }
+        numero = up.Randompista(numero,auxnum);
 
         FirebaseFirestore db1 = FirebaseFirestore.getInstance();
 
@@ -106,51 +97,40 @@ public class Sentence_completion extends AppCompatActivity {
 
 public void GetAnswer (){
 
-    if(numero == 0){
-        numero =(int) (Math.random() * 5) + 1;
-        if (auxnum !=0){
-            while (auxnum == numero){
-                numero =(int) (Math.random() * 5) ;
-            }
-        }
-    }
-
-
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    int doc1=Integer.parseInt(doc);
-    int document = numero+doc1;
-    Log.d("Documento______", String.valueOf(document));
-    DocumentReference docRef = db.collection("SentenceCompletition").document(String.valueOf(document));
-    docRef.get()
-            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            que = (String) document.get("question");
-                            respuesta = (String) document.get("answer");
-                            cefr = (String) document.get("CEFR");
-                            gse1= (String) document.get("gse");
-                            textView10.setText(gse1);
-                            textView11.setText(cefr);
-                            Log.d("respuesta", respuesta);
-                            question.setText(que);
-                        }
-                        else {
-                            Log.d("SentenceCompletition", "No such document");
-
-                        } }else {
-                        Log.w("SentenceCompletition", "Error getting documents.", task.getException());
+        UpdateItems up =  new UpdateItems();
+        numero = up.Randompista(numero,auxnum);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        int doc1=Integer.parseInt(doc);
+        int document = numero+doc1;
+        Log.d("Documento______", String.valueOf(document));
+        DocumentReference docRef = db.collection("SentenceCompletition").document(String.valueOf(document));
+        docRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                que = (String) document.get("question");
+                                respuesta = (String) document.get("answer");
+                                cefr = (String) document.get("CEFR");
+                                gse1= (String) document.get("gse");
+                                textView10.setText(gse1);
+                                textView11.setText(cefr);
+                                Log.d("respuesta", respuesta);
+                                question.setText(que);
+                            }
+                            else {
+                                Log.d("SentenceCompletition", "No such document");
+                            }
+                        }else
+                            {
+                                Log.w("SentenceCompletition", "Error getting documents.", task.getException());
+                            }
                     }
-                }
-            });
-
-
-    UpdateItems up =  new UpdateItems();
-    cefr =up.Cefr(gse1);
-
-    textView11.setText(cefr);
+                });
+        cefr =up.Cefr(gse1);
+        textView11.setText(cefr);
 
 }
 
@@ -169,21 +149,14 @@ public void GetAnswer (){
             auxdoc=auxdoc+5;
             doc = String.valueOf(auxdoc);
 
-            Map<String, Object> a = new HashMap<>();
-            a.put("CEFR", cefr);
-            a.put("gse", gse1);
-            a.put("score", score);
-            a.put("doc", doc);
-            a.put("time", tiempo);
-
-
-            dto.InsertScore(email,a, "ScoreSentenceCompletition");
+            dto.InsertScore(email, "ScoreSentenceCompletition", cefr, gse1,score, doc, tiempo);
 
             Toast.makeText(Sentence_completion.this, "Right Answer", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, Sentence_completion.class);
             i.putExtra("email", email);
+            i.putExtra("band", 1);
             startActivity(i);
-        }else {
+            }else {
             Toast.makeText(Sentence_completion.this, "Wrong Answer... Try Again", Toast.LENGTH_SHORT).show();
 
         }
@@ -211,8 +184,6 @@ public void GetAnswer (){
                 cefr =up.Cefr(gse1);
 
 
-
-
                 int auxdoc= Integer.parseInt(doc);
                 if (auxdoc==5)
                     auxdoc=0;
@@ -227,18 +198,7 @@ public void GetAnswer (){
                 auxscore = auxscore-10;
                 score = String.valueOf(auxscore);
 
-
-                Map<String, Object> a = new HashMap<>();
-                a.put("CEFR", cefr);
-                a.put("gse", gse1);
-                a.put("score", score);
-                a.put("doc", doc);
-                a.put("time", tiempo);
-
-
-
-                dto.InsertScore(email,a,"ScoreSentenceCompletition");
-
+                dto.InsertScore(email,"ScoreSentenceCompletition", cefr, gse1,score, doc, tiempo);
 
                 textView13.setText(score);
                 textView10.setText(gse1);
@@ -259,24 +219,12 @@ public void GetAnswer (){
     }
 
 
-
     public void Practice (View view){
-        Date fechaFin=new Date();
-        long tiempoFinal=fechaFin.getTime();
-        long resta=(tiempoFinal/1000) - (tiempoInicial/1000);
+        UpdateItems up =  new UpdateItems();
+        long ttotal = up.HoraFinal(tiempo);
 
-        resta= resta+tiempo;
-
-
-        Map<String, Object> a = new HashMap<>();
-        a.put("CEFR", cefr);
-        a.put("gse", gse1);
-        a.put("score", score);
-        a.put("doc", doc);
-        a.put("time", resta);
-
-        dto.InsertScore(email,a, "ScoreSentenceCompletition");
-        Log.d("TiempodeSentenceBuilds", String.valueOf(resta));
+         dto.InsertScore(email, "ScoreSentenceCompletition", cefr, gse1,score, doc, ttotal);
+        Log.d("TiempodeSentenceBuilds", String.valueOf(ttotal));
         Intent i = new Intent(this, Practice.class);
         i.putExtra("email", email);
         startActivity(i);

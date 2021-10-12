@@ -36,6 +36,7 @@ public class Home extends AppCompatActivity {
 
     public void Dashboard (View view){
         Intent i = new Intent(this, Dashboard.class);
+        i.putExtra("email", email);
         startActivity(i);
 
     }

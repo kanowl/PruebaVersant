@@ -25,9 +25,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
 
 
 public class Dictation extends AppCompatActivity {
@@ -46,8 +44,9 @@ public class Dictation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dictation);
 
-        Date fechaInicio=new Date();
-        tiempoInicial =fechaInicio.getTime();
+        UpdateItems up =  new UpdateItems();
+        int bandera = getIntent().getIntExtra("band", 1);
+        up.HoraInicio(bandera);
 
 
         ImageButton boton =  findViewById(R.id.Play);
@@ -62,8 +61,7 @@ public class Dictation extends AppCompatActivity {
         email = getIntent().getStringExtra("email");
 
 
-
-            DocumentReference docRef1 = db1.collection("ScoreDictation").document(String.valueOf(email));
+        DocumentReference docRef1 = db1.collection("ScoreDictation").document(String.valueOf(email));
             docRef1.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -75,6 +73,7 @@ public class Dictation extends AppCompatActivity {
                                 gse1= (String) document1.get("gse");
                                 score= (String) document1.get("score");
                                 doc=(String) document1.get("doc");
+                                tiempo= (long)document1.get("time");
                                 textView13.setText(score);
                                 textView10.setText(gse1);
                                 textView11.setText(cefr);
@@ -96,15 +95,9 @@ public class Dictation extends AppCompatActivity {
 
         boton.setEnabled(false);
 
-        if(numero == 0){
-            numero =(int) (Math.random() * 5) + 1;
-            if (auxnum !=0){
-                while (auxnum == numero){
-                    numero =(int) (Math.random() * 5) ;
-                }
-            }
+        UpdateItems up =  new UpdateItems();
+        numero = up.Randompista(numero,auxnum);
 
-        }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         int doc1=Integer.parseInt(doc);
@@ -134,7 +127,7 @@ public class Dictation extends AppCompatActivity {
                 });
 
 
-        UpdateItems up =  new UpdateItems();
+
         cefr =up.Cefr(gse1);
 
 
@@ -180,8 +173,6 @@ public class Dictation extends AppCompatActivity {
         audioManager.setStreamVolume (AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0);
         mp.start();
 
-
-
     }
 
 
@@ -199,20 +190,10 @@ public class Dictation extends AppCompatActivity {
             auxdoc=auxdoc+5;
             doc = String.valueOf(auxdoc);
 
-
-
-            Map<String, Object> a = new HashMap<>();
-            a.put("CEFR", cefr);
-            a.put("gse", gse1);
-            a.put("score", score);
-            a.put("doc", doc);
-            a.put("time", tiempo);
-
-
-            dto.InsertScore(email,a, "ScoreDictation");
-
+            dto.InsertScore(email, "ScoreDictation", cefr, gse1,score, doc, tiempo );
             Toast.makeText(Dictation.this, "Right Answer", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, Dictation.class);
+            i.putExtra("band", 1);
             i.putExtra("email", email);
             startActivity(i);
         }else {
@@ -227,19 +208,7 @@ public class Dictation extends AppCompatActivity {
         auxscore = auxscore-1;
         score = String.valueOf(auxscore);
 
-
-
-        Map<String, Object> a = new HashMap<>();
-        a.put("CEFR", cefr);
-        a.put("gse", gse1);
-        a.put("score", score);
-        a.put("doc", doc);
-        a.put("time", tiempo);
-
-
-        dto.InsertScore(email,a, "ScoreDictation");
-
-
+        dto.InsertScore(email, "ScoreDictation", cefr, gse1,score, doc, tiempo );
         textView13.setText(score);
         textView10.setText(gse1);
         textView11.setText(cefr);
@@ -290,18 +259,7 @@ public class Dictation extends AppCompatActivity {
                 auxscore = auxscore-10;
                 score = String.valueOf(auxscore);
 
-
-                Map<String, Object> a = new HashMap<>();
-                a.put("CEFR", cefr);
-                a.put("gse", gse1);
-                a.put("score", score);
-                a.put("doc", doc);
-                a.put("time", tiempo);
-
-
-                dto.InsertScore(email,a, "ScoreDictation");
-
-
+                dto.InsertScore(email, "ScoreDictation", cefr, gse1,score, doc, tiempo );
                 textView13.setText(score);
                 textView10.setText(gse1);
                 textView11.setText(cefr);
@@ -323,21 +281,10 @@ public class Dictation extends AppCompatActivity {
 
     public void Practice (View view){
 
-        Date fechaFin=new Date();
-        long tiempoFinal=fechaFin.getTime();
-        long resta=(tiempoFinal/1000) - (tiempoInicial/1000);
+        UpdateItems up =  new UpdateItems();
+        long ttotal = up.HoraFinal(tiempo);
 
-        resta= resta+tiempo;
-
-        Map<String, Object> a = new HashMap<>();
-        a.put("CEFR", cefr);
-        a.put("gse", gse1);
-        a.put("score", score);
-        a.put("doc", doc);
-        a.put("time", resta);
-
-        dto.InsertScore(email,a, "ScoreDictation");
-
+         dto.InsertScore(email, "ScoreDictation", cefr, gse1,score, doc, ttotal );
 
         Intent i = new Intent(this, Practice.class);
         i.putExtra("email", email);

@@ -25,6 +25,7 @@ public class Sentence_completition_instruction extends AppCompatActivity {
 
     public void sentence_completion (View view) {
         Intent i = new Intent(this, Sentence_completion.class);
+        i.putExtra("band", 0);
         i.putExtra("email", email);
 
         startActivity(i);

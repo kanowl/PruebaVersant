@@ -28,6 +28,7 @@ public class Dictation_instruction extends AppCompatActivity {
     public void dictation (View view){
         Intent i = new Intent(this, Dictation.class);
         i.putExtra("email", email);
+        i.putExtra("band", 0);
 
         startActivity(i);
 
